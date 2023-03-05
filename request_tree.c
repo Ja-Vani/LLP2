@@ -102,7 +102,11 @@ static void print_node(add_node_struct node) {
 }
 
 static void print_edge(add_edge_struct node) {
-    printf("Add edge of nodes: %d %d\n", node.node1, node.node2);
+    printf("Add edge %s of nodes: %d %d\n", node.schema_name, node.node1, node.node2);
+}
+
+static void print_delete_edge(delete_edge_struct node) {
+    printf("Delete edge %s of nodes: %d %d\n", node.schema_name, node.node1, node.node2);
 }
 
 void print_request_tree(request_tree tree) {
@@ -121,6 +125,10 @@ void print_request_tree(request_tree tree) {
         }
         case REQUEST_ADD_EDGE: {
             print_edge(tree.add_edge);
+            break;
+        }
+        case REQUEST_DELETE_EDGE: {
+            print_delete_edge(tree.delete_edge);
             break;
         }
         case REQUEST_ADD_NODE: {
@@ -164,6 +172,13 @@ size_t get_tree_size(request_tree tree) {
             break;
         }
         case REQUEST_ADD_EDGE: {
+            tree_size += string_size(tree.add_edge.schema_name);
+            tree_size += 2 * sizeof(int);
+            break;
+        }
+
+        case REQUEST_DELETE_EDGE: {
+            tree_size += string_size(tree.delete_edge.schema_name);
             tree_size += 2 * sizeof(int);
             break;
         }

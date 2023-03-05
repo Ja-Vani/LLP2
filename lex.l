@@ -21,6 +21,7 @@
 
 "addVertex"             {return TOK_ADD_NODE;}
 "addEdge"               {return TOK_ADD_EDGE;}
+"deleteEdge"            {return TOK_DELETE_EDGE;}
 "V"                     {return TOK_NODES;}
 "has"                   {return TOK_SELECT;}
 "out"                   {return TOK_OUT;}

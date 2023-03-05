@@ -16,7 +16,8 @@ typedef enum request_type {
     REQUEST_CLOSE,
     REQUEST_ADD_NODE,
     REQUEST_SELECT,
-    REQUEST_ADD_EDGE
+    REQUEST_ADD_EDGE,
+    REQUEST_DELETE_EDGE
 } request_type;
 
 typedef enum attr_type {
@@ -51,9 +52,16 @@ typedef struct attr_value {
 } attr_value;
 
 typedef struct add_edge_struct {
+    char* schema_name;
     int node1;
     int node2;
 } add_edge_struct;
+
+typedef struct delete_edge_struct {
+    char* schema_name;
+    int node1;
+    int node2;
+} delete_edge_struct;
 
 typedef struct add_node_struct {
     char* schema_name;
@@ -97,6 +105,7 @@ typedef struct request_tree {
     union {
         file_work_struct file_work;
         add_edge_struct add_edge;
+        delete_edge_struct delete_edge;
         add_node_struct add_node;
         arraylist *statements;
     };

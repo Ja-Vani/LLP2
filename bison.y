@@ -40,7 +40,7 @@ statement *cur_statement = NULL;
 
 %token TOK_OPEN TOK_CREATE TOK_CLOSE
 %token TOK_ADD_NODE TOK_NODES TOK_SELECT
-%token TOK_ADD_EDGE
+%token TOK_ADD_EDGE TOK_DELETE_EDGE
 %token TOK_EQUAL TOK_GREATER TOK_GREATER_EQUAL TOK_LESS TOK_LESS_EQUAL TOK_NOT_EQUAL TOK_LIKE
 %token TOK_VALUES TOK_DELETE
 %token TOK_OUT
@@ -79,6 +79,8 @@ command:
 	close_file
 	|
 	add_edge
+	|
+	delete_edge
 	|
 	add_vertex
 	|
@@ -127,13 +129,26 @@ add_vertex:
 	;
 
 add_edge:
-    TOK_ADD_EDGE OBRACE INTEGER COMMA INTEGER CBRACE
+    TOK_ADD_EDGE OBRACE quoted_argument COMMA INTEGER COMMA INTEGER CBRACE
     {
         tree.type = REQUEST_ADD_EDGE;
-        tree.add_edge.node1 = $3;
-        tree.add_edge.node2 = $5;
+        tree.add_edge.schema_name = malloc(sizeof(char) * strlen($3));
+        strcpy(tree.add_edge.schema_name, $3);
+        tree.add_edge.node1 = $5;
+        tree.add_edge.node2 = $7;
     }
     ;
+
+delete_edge:
+    TOK_DELETE_EDGE OBRACE quoted_argument COMMA INTEGER COMMA INTEGER CBRACE
+        {
+            tree.type = REQUEST_DELETE_EDGE;
+            tree.delete_edge.schema_name = malloc(sizeof(char) * strlen($3));
+            strcpy(tree.delete_edge.schema_name, $3);
+            tree.delete_edge.node1 = $5;
+            tree.delete_edge.node2 = $7;
+        }
+        ;
 
 select_nodes:
 	TOK_NODES OBRACE quoted_argument CBRACE
