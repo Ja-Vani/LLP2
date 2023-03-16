@@ -14,7 +14,8 @@ static char *const select_option_strings[] = {
         [OPTION_LESS] = "<",
         [OPTION_LESS_EQUAL] = "<=",
         [OPTION_NOT_EQUAL] = "!=",
-        [OPTION_LIKE] = "like"
+        [OPTION_LIKE] = "like",
+        [OPTION_REFERENCE] = "ref"
 };
 
 static void print_condition(select_condition condition) {
@@ -34,7 +35,6 @@ static void print_condition(select_condition condition) {
                    condition.value.float_value);
             break;
         }
-        case ATTR_TYPE_REFERENCE:
         case ATTR_TYPE_STRING: {
             printf("\t\"%s\" %s %s\n", condition.attr_name, select_option_strings[condition.option],
                    condition.value.string_value);
@@ -91,10 +91,6 @@ static void print_node(add_node_struct node) {
             }
             case ATTR_TYPE_STRING: {
                 printf("\"%s\": %s\n", cur_attr->attr_name, cur_attr->value.string_value);
-                break;
-            }
-            case ATTR_TYPE_REFERENCE: {
-                printf("\"%s\": %d\n", cur_attr->attr_name, cur_attr->value.integer_value);
                 break;
             }
         }

@@ -33,12 +33,12 @@
 "lte"                   {return TOK_LESS_EQUAL;}
 "neq"                   {return TOK_NOT_EQUAL;}
 "like"                  {return TOK_LIKE;}
+"ref"                   {return TOK_REFERENCE;}
 
 "integer"               {return TOK_INTEGER;}
 "float"                 {return TOK_FLOAT;}
 "string"                {return TOK_STRING;}
 "boolean"               {return TOK_BOOLEAN;}
-"reference"             {return TOK_REFERENCE;}
 
 "values"                {return TOK_VALUES;}
 "delete()"              {return TOK_DELETE;}

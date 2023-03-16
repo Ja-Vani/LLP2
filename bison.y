@@ -41,7 +41,7 @@ statement *cur_statement = NULL;
 %token TOK_OPEN TOK_CREATE TOK_CLOSE
 %token TOK_ADD_NODE TOK_NODES TOK_SELECT
 %token TOK_ADD_EDGE TOK_DELETE_EDGE
-%token TOK_EQUAL TOK_GREATER TOK_GREATER_EQUAL TOK_LESS TOK_LESS_EQUAL TOK_NOT_EQUAL TOK_LIKE
+%token TOK_EQUAL TOK_GREATER TOK_GREATER_EQUAL TOK_LESS TOK_LESS_EQUAL TOK_NOT_EQUAL TOK_LIKE TOK_REFERENCE
 %token TOK_VALUES TOK_DELETE
 %token TOK_OUT
 %token <string> FILENAME
@@ -58,7 +58,6 @@ statement *cur_statement = NULL;
 %token TOK_FLOAT
 %token TOK_STRING
 %token TOK_BOOLEAN
-%token TOK_REFERENCE
 
 %start commands
 
@@ -360,11 +359,8 @@ attribute_type:
 	| TOK_BOOLEAN {
 		$$ = ATTR_TYPE_BOOLEAN;
 	}
-	| TOK_REFERENCE {
-		$$ = ATTR_TYPE_REFERENCE;
-	}
-
 	;
+
 attribute_pair:
 	quoted_argument COMMA attribute_type {
 		if (!array_list_created) {
@@ -377,22 +373,6 @@ attribute_pair:
 		.type = $3,
 		};
 		strcpy(attr_decl->attr_name, $1);
-		arraylist_add(tree.add_schema.attribute_declarations, attr_decl);
-	}
-	| quoted_argument COMMA TOK_REFERENCE OBRACE quoted_argument CBRACE {
-		if (!array_list_created) {
-		tree.add_schema.attribute_declarations = arraylist_create();
-		printf("arraylist created\n");
-		array_list_created = true;
-		}
-		attribute_declaration *attr_decl = malloc(sizeof(attribute_declaration));
-		*attr_decl = (attribute_declaration) {
-		.attr_name = malloc(sizeof(char) * strlen($1)),
-		.type = ATTR_TYPE_REFERENCE,
-		.schema_ref_name = malloc(sizeof(char) * strlen($5))
-		};
-		strcpy(attr_decl->attr_name, $1);
-		strcpy(attr_decl->schema_ref_name, $5);
 		arraylist_add(tree.add_schema.attribute_declarations, attr_decl);
 	}
 	;
@@ -418,6 +398,9 @@ compare_option:
 	}
 	| TOK_LIKE {
 		$$ = OPTION_LIKE;
+	}
+	| TOK_REFERENCE {
+	    $$ = OPTION_REFERENCE;
 	}
 	;
 

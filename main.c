@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "parser.h"
 #include "request_tree.h"
-int yyparse();
 
 int main() {
     int yydebug=1;

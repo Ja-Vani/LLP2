@@ -24,8 +24,7 @@ typedef enum attr_type {
     ATTR_TYPE_INTEGER = 0,
     ATTR_TYPE_BOOLEAN,
     ATTR_TYPE_FLOAT,
-    ATTR_TYPE_STRING,
-    ATTR_TYPE_REFERENCE
+    ATTR_TYPE_STRING
 } attr_type;
 
 typedef struct file_work_struct {
@@ -75,7 +74,8 @@ typedef enum select_option {
     OPTION_LESS,
     OPTION_LESS_EQUAL,
     OPTION_NOT_EQUAL,
-    OPTION_LIKE
+    OPTION_LIKE,
+    OPTION_REFERENCE
 } select_option;
 
 typedef struct select_condition {
